@@ -22,10 +22,11 @@ To use this project, you'll need to provide input for the number of sequences, t
 
 ### Example
 
-``=== Sequence Setup ===``
-``Enter the number of sequences to generate: 100``
-``Enter the minimum length of these sequences: 10``
-``Now enter the maximum length: 20``
+``` (java)
+=== Sequence Setup ===
+Enter the number of sequences to generate: 100
+Enter the minimum length of these sequences: 10
+Now enter the maximum length: 20``
 
 Enter the probabilities for each base (should sum to 1 or less):
 A:    0,25
@@ -34,9 +35,5 @@ G:    0,30
 T:    1
 
 Warning! Probabilities do not sum to 1. Normalizing.
-Enter the pattern length to find: 3``
+Enter the pattern length to find: 3```
 
-### Installation
-``git clone https://github.com/yourusername/DNA-Sequences.git
-cd DNA-Sequences
-javac Seqs.java``

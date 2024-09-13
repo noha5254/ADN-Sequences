@@ -5,125 +5,118 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Sequences {
-    private String[] sequences;
-    private double[] probabilities = new double[4];
-    private Map<String, Integer> patternCount;
+    private String[] seqs;
+    private double[] probs = new double[4];
+    private Map<String, Integer> patCount;
 
-    // Constructor
-    public Sequences(int loops, int minSize, int maxSize, double[] probabilities, int motifSize) {
-        this.patternCount = new HashMap<>();
-        this.probabilities = probabilities;
-        this.sequences = new String[loops];
+    public Sequences(int nSeqs, int minLen, int maxLen, double[] probs, int patLen) {
+        this.patCount = new HashMap<>();
+        this.probs = probs;
+        this.seqs = new String[nSeqs];
         
-        // Generar secuencias
-        for (int i = 0; i < loops; i++) {
-            int sequenceSize = (int) (Math.random() * (maxSize - minSize + 1)) + minSize;
-            this.sequences[i] = generateSequence(sequenceSize);
+        for (int i = 0; i < nSeqs; i++) {
+            int seqLen = (int) (Math.random() * (maxLen - minLen + 1)) + minLen;
+            this.seqs[i] = genSeq(seqLen);
         }
         
-        // Mostrar secuencias generadas para depuración
-        System.out.println("\nSecuencias generadas:");
-        for (String seq : sequences) {
-            System.out.println(seq);
-        }
-
-        detectMotif(motifSize);
+        detectPat(patLen);
     }
 
-    // Generador de secuencias A, C, G, T
-    private String generateSequence(int size) {
-        StringBuilder sequence = new StringBuilder();
-        Random random = new Random();
+    private String genSeq(int len) {
+        StringBuilder seq = new StringBuilder();
+        Random rnd = new Random();
 
-        for (int i = 0; i < size; i++) {
-            double r = random.nextDouble();
-            if (r < probabilities[0]) {
-                sequence.append('A');
-            } else if (r < probabilities[0] + probabilities[1]) {
-                sequence.append('C');
-            } else if (r < probabilities[0] + probabilities[1] + probabilities[2]) {
-                sequence.append('G');
+        for (int i = 0; i < len; i++) {
+            double r = rnd.nextDouble();
+            if (r < probs[0]) {
+                seq.append('A');
+            } else if (r < probs[0] + probs[1]) {
+                seq.append('C');
+            } else if (r < probs[0] + probs[1] + probs[2]) {
+                seq.append('G');
             } else {
-                sequence.append('T');
+                seq.append('T');
             }
         }
-        return sequence.toString();
+        return seq.toString();
     }
 
-    // Detecta y cuenta los patrones en las secuencias generadas
-    private void detectMotif(int motifSize) {
-        for (String line : sequences) {
-            for (int i = 0; i <= line.length() - motifSize; i++) {
-                String pattern = line.substring(i, i + motifSize);
-                patternCount.put(pattern, patternCount.getOrDefault(pattern, 0) + 1);
+    private void detectPat(int patLen) {
+        for (String seq : seqs) {
+            for (int i = 0; i <= seq.length() - patLen; i++) {
+                String pat = seq.substring(i, i + patLen);
+                patCount.put(pat, patCount.getOrDefault(pat, 0) + 1);
             }
         }
     }
 
-    // Imprime los patrones encontrados y sus ocurrencias
-    public void printPatternCount() {
-        System.out.println("\nConteo de patrones encontrados:");
-        patternCount.forEach((key, value) -> 
-            System.out.println("Patrón: " + key + " - Ocurrencias: " + value)
-        );
+    public void printPatCount() {
+        System.out.println("\n=== Pattern Count ===");
+        if (patCount.isEmpty()) {
+            System.out.println("No patterns found.");
+        } else {
+            patCount.forEach((k, v) -> 
+                System.out.printf("Pattern: %-10s | Occurrences: %4d%n", k, v)
+            );
+        }
+        System.out.println("===========================");
     }
 
-    // Método principal
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        final int WIDTH = 6;  // Ancho de las etiquetas para una presentación más ordenada
+        final int WIDTH = 6;
 
         try {
-            System.out.println("Ingrese el número de secuencias a generar:");
-            int loops = sc.nextInt();
+            System.out.println("\n=== Sequence Setup ===");
+
+            System.out.print("Enter the number of sequences to generate: ");
+            int nSeqs = sc.nextInt();
             sc.nextLine();
 
-            System.out.println("Digite el largo mínimo de dichas cadenas:");
-            int min = sc.nextInt();
+            System.out.print("Enter the minimum length of these sequences: ");
+            int minLen = sc.nextInt();
             sc.nextLine();
 
-            int max;
+            int maxLen;
             do {
-                System.out.println("Ahora digite el largo máximo:");
-                max = sc.nextInt();
+                System.out.print("Now enter the maximum length: ");
+                maxLen = sc.nextInt();
                 sc.nextLine();
-                if (max <= min) {
-                    System.out.println("El largo máximo debe ser mayor que el largo mínimo.");
+                if (maxLen <= minLen) {
+                    System.out.println("\nThe maximum length must be greater than the minimum length.");
                 }
-            } while (max <= min);
-
-            System.out.println("Ingrese las probabilidades para cada base (deben sumar 1 o menos):");
+            } while (maxLen <= minLen);
+            
+            System.out.println("\nEnter the probabilities for each base (should sum to 1 or less):");
             System.out.printf("%-" + WIDTH + "s", "A: ");
-            double probA = sc.nextDouble();
+            double pA = sc.nextDouble();
             System.out.printf("%-" + WIDTH + "s", "C: ");
-            double probC = sc.nextDouble();
+            double pC = sc.nextDouble();
             System.out.printf("%-" + WIDTH + "s", "G: ");
-            double probG = sc.nextDouble();
+            double pG = sc.nextDouble();
             System.out.printf("%-" + WIDTH + "s", "T: ");
-            double probT = sc.nextDouble();
+            double pT = sc.nextDouble();
             sc.nextLine();
 
-            // Normalizar las probabilidades si es necesario
-            double total = probA + probC + probG + probT;
+            double total = pA + pC + pG + pT;
             if (total > 1) {
-                System.out.println("Las probabilidades no suman 1. Normalizando.");
-                probA /= total;
-                probC /= total;
-                probG /= total;
-                probT /= total;
+                System.out.println("\nWarning! Probabilities do not sum to 1. Normalizing.");
+                pA /= total;
+                pC /= total;
+                pG /= total;
+                pT /= total;
             }
 
-            double[] probabilities = {probA, probC, probG, probT};
-
-            System.out.println("Ingrese el tamaño de los patrones a encontrar:");
-            int patternSize = sc.nextInt();
+            double[] probs = {pA, pC, pG, pT};
+            
+            System.out.print("Enter the pattern length to find: ");
+            int patLen = sc.nextInt();
             sc.close();
 
-            Sequences bio = new Sequences(loops, min, max, probabilities, patternSize);
-            bio.printPatternCount();
+            Sequences seqsBio = new Sequences(nSeqs, minLen, maxLen, probs, patLen);
+            seqsBio.printPatCount();
         } catch (InputMismatchException e) {
-            System.out.println("Entrada inválida. Asegúrate de ingresar números válidos.");
+            System.out.println("\nInvalid input. Make sure to enter valid numbers.");
         }
     }
 }
-

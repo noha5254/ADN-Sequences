@@ -4,13 +4,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-public class BioInformatics {
+public class Sequences {
     private String[] sequences;
     private double[] probabilities = new double[4];
     private Map<String, Integer> patternCount;
 
     // Constructor
-    public BioInformatics(int loops, int minSize, int maxSize, double[] probabilities, int motifSize) {
+    public Sequences(int loops, int minSize, int maxSize, double[] probabilities, int motifSize) {
         this.patternCount = new HashMap<>();
         this.probabilities = probabilities;
         this.sequences = new String[loops];
@@ -119,7 +119,7 @@ public class BioInformatics {
             int patternSize = sc.nextInt();
             sc.close();
 
-            BioInformatics bio = new BioInformatics(loops, min, max, probabilities, patternSize);
+            Sequences bio = new Sequences(loops, min, max, probabilities, patternSize);
             bio.printPatternCount();
         } catch (InputMismatchException e) {
             System.out.println("Entrada inválida. Asegúrate de ingresar números válidos.");

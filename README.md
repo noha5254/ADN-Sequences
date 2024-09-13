@@ -26,7 +26,7 @@ To use this project, you'll need to provide input for the number of sequences, t
 === Sequence Setup ===
 Enter the number of sequences to generate: 100
 Enter the minimum length of these sequences: 10
-Now enter the maximum length: 20``
+Now enter the maximum length: 20
 
 Enter the probabilities for each base (should sum to 1 or less):
 A:    0,25
@@ -35,5 +35,24 @@ G:    0,30
 T:    1
 
 Warning! Probabilities do not sum to 1. Normalizing.
-Enter the pattern length to find: 3```
-
+Enter the pattern length to find: 3
+```
+### Results
+``` (java)
+=== Pattern Count ===
+Pattern: ATT        | Occurrences:   48
+Pattern: CTT        | Occurrences:   74
+Pattern: TAT        | Occurrences:   44
+Pattern: GTT        | Occurrences:   40
+Pattern: AAA        | Occurrences:    2
+Pattern: CAA        | Occurrences:    4
+Pattern: AAC        | Occurrences:    4
+Pattern: CAC        | Occurrences:    9
+Pattern: GAA        | Occurrences:    2
+Pattern: AAG        | Occurrences:    1
+Pattern: GAC        | Occurrences:    3
+Pattern: CAG        | Occurrences:    3
+Pattern: GAG        | Occurrences:    9
+Pattern: TGA        | Occurrences:   11
+Pattern: TGC        | Occurrences:   20
+``` 

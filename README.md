@@ -22,10 +22,10 @@ To use this project, you'll need to provide input for the number of sequences, t
 
 ### Example
 
-``=== Sequence Setup ===
-Enter the number of sequences to generate: 100
-Enter the minimum length of these sequences: 10
-Now enter the maximum length: 20
+``=== Sequence Setup ===``
+``Enter the number of sequences to generate: 100``
+``Enter the minimum length of these sequences: 10``
+``Now enter the maximum length: 20``
 
 Enter the probabilities for each base (should sum to 1 or less):
 A:    0,25
